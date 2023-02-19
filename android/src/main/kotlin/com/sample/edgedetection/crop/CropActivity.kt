@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import com.sample.edgedetection.EdgeDetectionHandler
 import com.sample.edgedetection.R
 import com.sample.edgedetection.base.BaseActivity
@@ -41,7 +42,7 @@ class CropActivity : BaseActivity(), ICropView.Proxy {
     override fun initPresenter() {
         val initialBundle = intent.getBundleExtra(EdgeDetectionHandler.INITIAL_BUNDLE) as Bundle;
         mPresenter = CropPresenter(this, this, initialBundle)
-        findViewById<ImageView>(R.id.crop).setOnClickListener {
+        findViewById<TextView>(R.id.crop).setOnClickListener {
             Log.e(TAG, "Crop touched!")
             mPresenter.crop()
             changeMenuVisibility(true)
@@ -68,10 +69,10 @@ class CropActivity : BaseActivity(), ICropView.Proxy {
 
         if (showMenuItems) {
             menu.findItem(R.id.action_label).isVisible = true
-            findViewById<ImageView>(R.id.crop).visibility = View.GONE
+            findViewById<TextView>(R.id.crop).visibility = View.GONE
         } else {
             menu.findItem(R.id.action_label).isVisible = false
-            findViewById<ImageView>(R.id.crop).visibility = View.VISIBLE
+            findViewById<TextView>(R.id.crop).visibility = View.VISIBLE
         }
 
         return super.onCreateOptionsMenu(menu)
