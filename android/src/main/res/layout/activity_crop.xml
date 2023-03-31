@@ -91,7 +91,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/round_button"
             android:padding="8dp"
-            android:text="crop"
+            android:text="Crop"
             android:textAlignment="center"
             android:gravity="center"
             android:textColor="#FFF"
