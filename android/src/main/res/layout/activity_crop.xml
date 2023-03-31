@@ -94,7 +94,7 @@
             android:text="crop"
             android:textAlignment="center"
             android:gravity="center"
-            android:textColor="#000"
+            android:textColor="#FFF"
             app:srcCompat="@drawable/ic_crop"
             app:tint="@android:color/darker_gray" />
         <!-- <ImageView
