@@ -46,11 +46,11 @@ class PaperRectangle : View {
         rectPaint.strokeCap = Paint.Cap.ROUND      // set the paint cap to round too
         rectPaint.pathEffect = CornerPathEffect(10f)
 
-        circlePaint.color = Color.WHITE
+        circlePaint.color = Color.argb(255,255,192,203)
         circlePaint.isDither = true
         circlePaint.isAntiAlias = true
         circlePaint.strokeWidth = 4F
-        circlePaint.style = Paint.Style.STROKE
+        circlePaint.style = Paint.Style.FILL_AND_STROKE
     }
 
     fun onCornersDetected(corners: Corners) {
@@ -126,7 +126,7 @@ class PaperRectangle : View {
 
         rectPaint.color = Color.argb(128, 255, 255, 255)
         rectPaint.strokeWidth = 0F
-        rectPaint.style = Paint.Style.FILL
+        rectPaint.style = Paint.Style.STROKE
         canvas?.drawPath(path, rectPaint)
 
         if (cropMode) {
