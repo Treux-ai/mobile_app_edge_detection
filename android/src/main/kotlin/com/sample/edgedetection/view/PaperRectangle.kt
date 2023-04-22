@@ -119,12 +119,12 @@ class PaperRectangle : View {
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        rectPaint.color = Color.WHITE
+        rectPaint.color = Color.PINK
         rectPaint.strokeWidth = 6F
         rectPaint.style = Paint.Style.STROKE
         canvas?.drawPath(path, rectPaint)
 
-        rectPaint.color = Color.argb(128, 255, 255, 255)
+        rectPaint.color = Color.argb(225, 255, 220, 231)
         rectPaint.strokeWidth = 0F
         rectPaint.style = Paint.Style.STROKE
         canvas?.drawPath(path, rectPaint)
