@@ -12,7 +12,7 @@ import Foundation
 class ScanPhotoViewController: UIViewController, ImageScannerControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var _result:FlutterResult?
-    
+    var teststr = String()
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
         
@@ -92,11 +92,9 @@ class ScanPhotoViewController: UIViewController, ImageScannerControllerDelegate,
         guard let data = image.jpegData(compressionQuality: 1) ?? image.pngData() else {
             return nil
         }
-        guard let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) as NSURL else {
-            return nil
-        }
-        let fileName = randomString(length:10);
-        let filePath: URL = directory.appendingPathComponent(fileName + ".png")!
+         
+         let path : String = "file://" + self.teststr.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!
+        let filePath: URL = URL.init(string: path)!
         
         
         do {

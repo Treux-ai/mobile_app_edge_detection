@@ -13,11 +13,12 @@ public class SwiftEdgeDetectionPlugin: NSObject, FlutterPlugin, UIApplicationDel
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         
+         let args = call.arguments as! Dictionary<String, Any>
+            let saveTo = args["save_to"] as! String
+            let canUseGallery = args["can_use_gallery"] as? Bool ?? false
         if (call.method == "edge_detect")
         {
-            let args = call.arguments as! Dictionary<String, Any>
-            let saveTo = args["save_to"] as! String
-            let canUseGallery = args["can_use_gallery"] as! Bool
+           
             if let viewController = UIApplication.shared.delegate?.window??.rootViewController as? FlutterViewController {
                 let destinationViewController = HomeViewController()
                 destinationViewController.setParams(saveTo: saveTo, canUseGallery: canUseGallery)
@@ -30,6 +31,7 @@ public class SwiftEdgeDetectionPlugin: NSObject, FlutterPlugin, UIApplicationDel
             if let viewController = UIApplication.shared.delegate?.window??.rootViewController as? FlutterViewController {
                 let destinationViewController = HomeViewController()
                 destinationViewController._result = result
+                destinationViewController.setParams(saveTo: saveTo, canUseGallery: canUseGallery)
                 destinationViewController.selectPhoto();
             }
         }
