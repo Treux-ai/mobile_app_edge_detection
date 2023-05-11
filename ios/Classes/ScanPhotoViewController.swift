@@ -12,7 +12,8 @@ import Foundation
 class ScanPhotoViewController: UIViewController, ImageScannerControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var _result:FlutterResult?
-    var teststr = String()
+    var saveTo: String = ""
+    
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true)
         
@@ -96,7 +97,6 @@ class ScanPhotoViewController: UIViewController, ImageScannerControllerDelegate,
          let path : String = "file://" + self.teststr.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!
         let filePath: URL = URL.init(string: path)!
         
-        
         do {
             let fileManager = FileManager.default
             
@@ -115,7 +115,8 @@ class ScanPhotoViewController: UIViewController, ImageScannerControllerDelegate,
         
         do {
             try data.write(to: filePath)
-            return filePath.path
+            try FileManager.default.moveItem(atPath: filePath.path, toPath: self.saveTo)
+            return self.saveTo
         } catch {
             print(error.localizedDescription)
             return nil

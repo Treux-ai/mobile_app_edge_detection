@@ -28,8 +28,11 @@ public class SwiftEdgeDetectionPlugin: NSObject, FlutterPlugin, UIApplicationDel
         }
         if (call.method == "edge_detect_gallery")
         {
+                let args = call.arguments as! Dictionary<String, Any>
+                let saveTo = args["save_to"] as! String
             if let viewController = UIApplication.shared.delegate?.window??.rootViewController as? FlutterViewController {
                 let destinationViewController = HomeViewController()
+                destinationViewController.setParams(saveTo: saveTo, canUseGallery: true)
                 destinationViewController._result = result
                 destinationViewController.setParams(saveTo: saveTo, canUseGallery: canUseGallery)
                 destinationViewController.selectPhoto();
