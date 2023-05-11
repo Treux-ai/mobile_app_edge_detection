@@ -94,7 +94,7 @@ class ScanPhotoViewController: UIViewController, ImageScannerControllerDelegate,
             return nil
         }
          
-         let path : String = "file://" + self.teststr.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!
+         let path : String = "file://" + self.saveTo.addingPercentEncoding(withAllowedCharacters:NSCharacterSet.urlQueryAllowed)!
         let filePath: URL = URL.init(string: path)!
         
         do {
