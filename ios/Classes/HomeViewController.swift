@@ -15,14 +15,17 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(didchange(_:)), name: NSNotification.Name("Show"), object: nil)
         
+         
+        
+
         if self.isBeingPresented {
             
             cameraController = ImageScannerController()
             cameraController.imageScannerDelegate = self
             cameraController.testclosure = { str in
-                
                 self.selectPhotoButton.isHidden = str == "" ? true : false
                 
+                NotificationCenter.default.addObserver(self, selector: #selector(self.didchangehide(_:)), name: NSNotification.Name("Hide"), object: nil)
             }
             if #available(iOS 13.0, *) {
                 cameraController.isModalInPresentation = true
@@ -72,14 +75,16 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
             selectPhotoButton.isHidden = false
         }
         
+        
     }
     
     @objc func didchange(_ sender: NSNotification) {
+        
         self.selectPhotoButton.isHidden = false
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("Show"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didchange(_:)), name: NSNotification.Name("Show"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didchangehide(_:)), name: NSNotification.Name("Hide"), object: nil)
-        
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("Hide"), object: nil)
+    
     }
     
     lazy var selectPhotoButton: UIButton = {
@@ -103,6 +108,7 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
     }
     
     @objc func didchangehide(_ sender: NSNotification) {
+        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("Hide"), object: nil)
         self.selectPhotoButton.isHidden = true
         NotificationCenter.default.addObserver(self, selector: #selector(didchangehide(_:)), name: NSNotification.Name("Hide"), object: nil)
