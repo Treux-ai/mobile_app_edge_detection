@@ -3,18 +3,27 @@ import Flutter
 import Foundation
 
 class HomeViewController: UIViewController, ImageScannerControllerDelegate {
-
+    
     var cameraController: ImageScannerController!
     var _result:FlutterResult?
     
     var saveTo: String = ""
     var canUseGallery: Bool = true
     
+    
     override func viewDidAppear(_ animated: Bool) {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didchange(_:)), name: NSNotification.Name("Show"), object: nil)
+        
         if self.isBeingPresented {
+            
             cameraController = ImageScannerController()
             cameraController.imageScannerDelegate = self
-
+            cameraController.testclosure = { str in
+                
+                self.selectPhotoButton.isHidden = str == "" ? true : false
+                
+            }
             if #available(iOS 13.0, *) {
                 cameraController.isModalInPresentation = true
                 cameraController.overrideUserInterfaceStyle = .dark
@@ -39,7 +48,17 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
             }
             
             present(cameraController, animated: true) {
+                
                 if let window = UIApplication.shared.keyWindow {
+                    
+                    UIApplication.shared.keyWindow?.subviews.map({ vc  in
+                        if let vcs = vc as? UIButton {
+                            vcs.removeFromSuperview()
+                        } else {
+                            
+                        }
+                    })
+                    
                     window.addSubview(self.selectPhotoButton)
                     self.setupConstraints()
                 }
@@ -48,9 +67,19 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         if (canUseGallery == true) {
             selectPhotoButton.isHidden = false
         }
+        
+    }
+    
+    @objc func didchange(_ sender: NSNotification) {
+        self.selectPhotoButton.isHidden = false
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("Show"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didchange(_:)), name: NSNotification.Name("Show"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didchangehide(_:)), name: NSNotification.Name("Hide"), object: nil)
+        
     }
     
     lazy var selectPhotoButton: UIButton = {
@@ -73,19 +102,28 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
         dismiss(animated: true)
     }
     
+    @objc func didchangehide(_ sender: NSNotification) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("Hide"), object: nil)
+        self.selectPhotoButton.isHidden = true
+        NotificationCenter.default.addObserver(self, selector: #selector(didchangehide(_:)), name: NSNotification.Name("Hide"), object: nil)
+        
+    }
+    
     @objc func selectPhoto() {
         if let window = UIApplication.shared.keyWindow {
-            window.rootViewController?.dismiss(animated: true, completion: nil)
-            self.hideButtons()
+            window.rootViewController?.dismiss(animated: true, completion: {
+                self.hideButtons()
+                
+                let scanPhotoVC = ScanPhotoViewController()
+                scanPhotoVC._result = self._result
+                scanPhotoVC.saveTo = self.saveTo
+                if #available(iOS 13.0, *) {
+                    scanPhotoVC.isModalInPresentation = true
+                    scanPhotoVC.overrideUserInterfaceStyle = .dark
+                }
+                window.rootViewController?.present(scanPhotoVC, animated: true)
+            })
             
-            let scanPhotoVC = ScanPhotoViewController()
-            scanPhotoVC._result = _result
-            scanPhotoVC.saveTo = self.saveTo
-            if #available(iOS 13.0, *) {
-                scanPhotoVC.isModalInPresentation = true
-                scanPhotoVC.overrideUserInterfaceStyle = .dark
-            }
-            window.rootViewController?.present(scanPhotoVC, animated: true)
         }
     }
     
@@ -140,9 +178,9 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
         // Your ViewController is responsible for dismissing the ImageScannerController
         scanner.dismiss(animated: true)
         self.hideButtons()
-        
-        _result!(false)
+        self._result!(false)
         self.dismiss(animated: true)
+        
     }
     
     func saveImage(image: UIImage) -> Bool? {

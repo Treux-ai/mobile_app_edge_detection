@@ -15,10 +15,21 @@ class ScanPhotoViewController: UIViewController, ImageScannerControllerDelegate,
     var saveTo: String = ""
     
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true)
         
-        _result!(false)
-        dismiss(animated: true)
+        picker.dismiss(animated: true)
+        self.dismiss(animated: true,completion: {
+            if let flutter = UIApplication.shared.keyWindow?.rootViewController as? FlutterViewController {
+                let home = HomeViewController()
+                home._result = self._result
+                home.modalPresentationStyle = .fullScreen
+                flutter.present(home, animated: true)
+            } else {
+                
+            }
+        })
+           
+        
+        
     }
     
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
@@ -59,7 +70,7 @@ class ScanPhotoViewController: UIViewController, ImageScannerControllerDelegate,
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            
+            imagePicker.modalPresentationStyle = .fullScreen
             present(imagePicker, animated: true)
         }
     }
