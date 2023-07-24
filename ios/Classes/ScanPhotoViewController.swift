@@ -20,6 +20,7 @@ class ScanPhotoViewController: UIViewController, ImageScannerControllerDelegate,
         self.dismiss(animated: true,completion: {
             if let flutter = UIApplication.shared.keyWindow?.rootViewController as? FlutterViewController {
                 let home = HomeViewController()
+                home.saveTo = self.saveTo
                 home._result = self._result
                 home.modalPresentationStyle = .fullScreen
                 flutter.present(home, animated: true)

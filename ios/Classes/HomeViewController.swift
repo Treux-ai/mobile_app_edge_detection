@@ -204,9 +204,23 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
             if fileManager.fileExists(atPath: filePath.path) {
                 // Delete file
                 try fileManager.removeItem(atPath: filePath.path)
+
+                  do {
+                    try data.write(to: filePath)
+                    print("File saved")
+                } catch {
+                    print(error.localizedDescription)
+                }
             }
             else {
-                print("File does not exist")
+
+                do {
+                    try data.write(to: filePath)
+                    print("File saved")
+                } catch {
+                    print(error.localizedDescription)
+                }
+                 
             }
         }
         catch let error as NSError {
