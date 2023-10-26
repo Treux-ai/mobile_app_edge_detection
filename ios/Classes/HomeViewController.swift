@@ -62,9 +62,7 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
         button.isHidden = true
         return button
     }()
-    
-    // MARK: - Actions
-    
+        
     @objc private func cancelImageScannerController() {
         hideButtons()
         
@@ -80,6 +78,7 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
             
             let scanPhotoVC = ScanPhotoViewController()
             scanPhotoVC._result = _result
+            scanPhotoVC.saveTo = self.saveTo
             if #available(iOS 13.0, *) {
                 scanPhotoVC.isModalInPresentation = true
                 scanPhotoVC.overrideUserInterfaceStyle = .dark

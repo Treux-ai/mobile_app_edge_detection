@@ -6,7 +6,47 @@ A flutter plugin to detect edges of objects, scan paper, detect corners, detect 
 
 ### iOS
 
-iOS 10.0 or higher is needed to use the plugin. If compiling for any version lower than 10.0 make sure to check the iOS version before using the plugin. Change the minimum platform version to 10 (or higher) in your `ios/Podfile` file.
+iOS 13.0 or higher is needed to use the plugin. If compiling for any version lower than 13.0 make sure to check the iOS version before using the plugin. Change the minimum platform version to 13 (or higher) in your `ios/Podfile` file, and inform/request access to the permissions acording with `permission_handler`
+
+```
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+        '$(inherited)',
+
+        ## dart: PermissionGroup.camera
+         'PERMISSION_CAMERA=1',
+
+        ## dart: PermissionGroup.photos
+         'PERMISSION_PHOTOS=1',
+      ]
+
+    end
+    # End of the permission_handler configuration
+  end
+end
+```
+
+## Fix build on xCode 15
+
+Add this line to your Podfile in your project:
+
+```
+pod 'WeScan', :path => '.symlinks/plugins/edge_detection/ios/WeScan-3.0.0'
+```
+
+=> like this below:
+
+```
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+  pod 'WeScan', :path => '.symlinks/plugins/edge_detection/ios/WeScan-3.0.0'
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+end
+```
 
 Add below permission to the `ios/Runner/Info.plist`:
 
@@ -17,17 +57,21 @@ Or in text format add the key:
 ```xml
 <key>NSCameraUsageDescription</key>
 <string>Can I use the camera please?</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Can I use the photos please?</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Can I use the photos please?</string>
 ```
 
 Add to your need localizations to your app through XCode for localize actions buttons from WeScan (https://github.com/WeTransfer/WeScan/tree/master/WeScan/Resources/Localisation)
 
 ### Android
 
-The plugin code is written in kotlin 1.5.31 so the same has to be set to the android project of yours for compilation.
-Change the kotlin_version to 1.5.31 in your `android/build.gradle` file.
+The plugin code is written in kotlin 1.8.0 so the same has to be set to the android project of yours for compilation.
+Change the kotlin_version to 1.8.0 in your `android/build.gradle` file.
 
 ```
-ext.kotlin_version = '1.5.31'
+ext.kotlin_version = '1.8.0'
 ```
 
 Change the minimum Android SDK version to 21 (or higher) in your `android/app/build.gradle` file.
@@ -44,7 +88,7 @@ Please check the latest version before installation.
 dependencies:
   flutter:
     sdk: flutter
-  edge_detection: ^1.1.1
+  edge_detection: ^1.1.3
   permission_handler: ^10.0.0
   path_provider: ^2.0.11
   path: ^1.8.2
@@ -73,7 +117,7 @@ String imagePath = join((await getApplicationSupportDirectory()).path,
     "${(DateTime.now().millisecondsSinceEpoch / 1000).round()}.jpeg");
 
 // Use below code for live camera detection with option to select from gallery in the camera feed.
-        
+
 try {
     //Make sure to await the call to detectEdge.
     bool success = await EdgeDetection.detectEdge(imagePath,
