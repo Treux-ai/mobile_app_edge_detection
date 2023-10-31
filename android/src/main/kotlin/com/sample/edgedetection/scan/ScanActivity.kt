@@ -57,7 +57,7 @@ class ScanActivity : BaseActivity(), IScanView.Proxy {
         //        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT <= Build.VERSION_CODES.TIRAMISU && baseContext.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH))
         //    View.VISIBLE else
         //        View.GONE
-        flash.visibility = View.VISIBLE;
+        findViewById<View>(R.id.flash).visibility = View.VISIBLE;
         findViewById<View>(R.id.flash).setOnClickListener {
             mPresenter.toggleFlash()
         }
