@@ -96,9 +96,7 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
         button.isHidden = true
         return button
     }()
-    
-    // MARK: - Actions
-    
+        
     @objc private func cancelImageScannerController() {
         hideButtons()
         
