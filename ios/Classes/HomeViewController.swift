@@ -22,11 +22,11 @@ class HomeViewController: UIViewController, ImageScannerControllerDelegate {
             
             cameraController = ImageScannerController()
             cameraController.imageScannerDelegate = self
-            cameraController.testclosure = { str in
-                self.selectPhotoButton.isHidden = str == "" ? true : false
+            // cameraController.testclosure = { str in
+            //     self.selectPhotoButton.isHidden = str == "" ? true : false
                 
-                NotificationCenter.default.addObserver(self, selector: #selector(self.didchangehide(_:)), name: NSNotification.Name("Hide"), object: nil)
-            }
+            //     NotificationCenter.default.addObserver(self, selector: #selector(self.didchangehide(_:)), name: NSNotification.Name("Hide"), object: nil)
+            // }
             if #available(iOS 13.0, *) {
                 cameraController.isModalInPresentation = true
                 cameraController.overrideUserInterfaceStyle = .dark
