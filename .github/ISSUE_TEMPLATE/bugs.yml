@@ -1,0 +1,48 @@
+name: Bugs
+description: Create a bug report
+labels: ["type:bug", "size:S"]
+body:
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: |
+        A clear and concise description of what the bug is (Current State)
+
+        If applicable, add screenshots to help explain your problem. Add any other context about the problem if possible
+      placeholder: |
+        E.g.: When I do X, I get a result Y
+        This is similar to issue #XYZ. Could maybe be tied to environment variable
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: >
+        A clear and concise description of what you expected to happen
+      placeholder: >
+        E.g.: The result should have been Z
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        E.g.:
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: System configuration (Optional)
+      description: Provide environment details to make RCA easier
+      placeholder: |
+        E.g.:
+        - OS: [e.g. iOS]
+        - Browser [e.g. chrome, safari]
+        - Version [e.g. 22]
+    validations:
+      required: false

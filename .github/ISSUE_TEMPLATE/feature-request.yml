@@ -1,0 +1,52 @@
+name: Feature Request
+description: Create a feature/enhancement request
+labels: ["type:feature", "triage-required"]
+body:
+  - type: textarea
+    attributes:
+      label: Problem Statement
+      description: A clear and concise description of what the problem is that you're trying to solve by doing this work
+      placeholder: |
+        E.g: Our Postgres queries are currently cached, but the performance is subpar and is causing slow load times on the front end
+
+        You could also add user stories:
+        How the product should work for various user types
+        E.g.:
+        As a user
+        - I want my search queries to return results quickly
+        - So I can get my work done faster
+
+        As a front end engineer
+        - I expect my queries to be cached on the back end
+        - So the front end can be as fast as possible
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed work
+      description: >
+        High-level overview of what we're building and why we think it will solve the problem.
+
+        If this is a long feature, consider adding detailed task items
+      placeholder: >
+        E.g: Research and implement a new caching strategy
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Success criteria
+      description: The criteria that must be met in order to consider this Feature a success
+      placeholder: >
+        E.g.:
+        - Load times reduced at least 20%, ideally more
+        - CPU usage decreased
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Future work & Out of scope items
+      description: List anything that is out of scope (not handled in this FR). Potential future issues
+      placeholder: >
+        E.g: Front end caching
+    validations:
+      required: false
